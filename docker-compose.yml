@@ -2,32 +2,32 @@ version: '3.7'
 
 services:
 
-  node:
-    container_name: nodeapp
-    image: nodeapp
+  myFancyNodeJsApp:
+    container_name: myFancyNodeJsApp
+    image: salmantheexorcist/myfirstfancyapp:3.0
     build:
       context: .
       dockerfile: node.dockerfile
       args:
         PACKAGES: "nano wget curl"
     ports:
-      - "3000:3000"
+      - "8080:3000"
     networks:
-      - nodeapp-network
+      - myspooky_isolated_network
     volumes:
       - ./logs:/var/www/logs
     environment:
       - NODE_ENV=production
       - APP_VERSION=1.0
     depends_on: 
-      - mongodb
+      - myMongoDbContainer
       
-  mongodb:
-    container_name: mongodb
+  myMongoDbContainer:
+    container_name: myMongoDbContainer
     image: mongo
     networks:
-      - nodeapp-network
+      - myspooky_isolated_network
 
 networks:
-  nodeapp-network:
-    driver: bridge
+  myspooky_isolated_network:
+    driver: bridge 
